@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const hljs = require('highlightjs')
+const hljs = require('highlightjs-solidity')
 const {
   getFileName, getCleanFilename
 } = require('./utils')
@@ -99,11 +99,14 @@ class RepoBook {
       .map(f => {
         const indexName = getCleanFilename(f[0], this.dir, f[1]),
           anchorName = getCleanFilename(f[0], this.dir),
-          left_pad = f[2] ? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(f[1]) : '',
+          left_pad = f[2] ? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(f[1]) :
+          '',
           h_level = '####',
-          list_style = f[2] ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(f[1]) +
+          list_style = f[2] ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(f[
+            1]) +
           '|-'
-        return f[2] ? `${h_level} ${left_pad} ${list_style} /${indexName}` :
+        return f[2] ?
+          `${h_level} ${left_pad} ${list_style} /${indexName}` :
           `${h_level} ${left_pad}[${list_style} ${indexName}](#${anchorName})`
       })
       .join('\n')
@@ -152,7 +155,8 @@ class RepoBook {
           const title = `# ${this.title} (${++this.partOffset})\n\n\n\n`
 
           let toc = '## Contents\n'
-          const index = this.renderIndex(files.slice(this.fileOffset, i + 1))
+          const index = this.renderIndex(files.slice(this.fileOffset, i +
+            1))
           toc += index
           contents.unshift(title, toc)
 

@@ -4,7 +4,7 @@ const fs = require('fs')
 const {
   Remarkable
 } = require('remarkable')
-const hljs = require('highlightjs')
+const hljs = require('highlightjs-solidity')
 
 const RepoBook = require('./repo')
 const {
