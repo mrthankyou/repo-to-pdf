@@ -1,12 +1,18 @@
 const path = require('path')
 const fs = require('fs')
 
-const { Remarkable } = require('remarkable')
-const hljs = require('highlight.js')
+const {
+  Remarkable
+} = require('remarkable')
+const hljs = require('highlightjs')
 
 const RepoBook = require('./repo')
-const { sequenceRenderEbook } = require('./render')
-const { getFileName, getFileNameExt } = require('./utils')
+const {
+  sequenceRenderEbook
+} = require('./render')
+const {
+  getFileName, getFileNameExt
+} = require('./utils')
 
 function getRemarkableParser() {
   return new Remarkable({
@@ -26,14 +32,18 @@ function getRemarkableParser() {
     },
   }).use(function(remarkable) {
     remarkable.renderer.rules.heading_open = function(tokens, idx) {
-      return '<h' + tokens[idx].hLevel + ' id=' + tokens[idx + 1].content + ' anchor=true>'
+      return '<h' + tokens[idx].hLevel + ' id=' + tokens[idx + 1].content +
+        ' anchor=true>'
     }
   })
 }
 
 // => './path/file-1.html'
 function getHTMLFiles(mdString, repoBook, options) {
-  const { pdf_size, white_list, device, baseUrl, protocol, renderer, outputFileName, inputFolder } = options
+  const {
+    pdf_size, white_list, device, baseUrl, protocol, renderer, outputFileName,
+    inputFolder
+  } = options
   const opts = {
     cssPath: {
       desktop: '/css/github-min.css',
@@ -57,12 +67,14 @@ function getHTMLFiles(mdString, repoBook, options) {
               }`,
     },
   }
-  const HTMLFileNameWithExt = getFileNameExt(outputFileName, 'html') || getFileName(inputFolder) + '.html'
+  const HTMLFileNameWithExt = getFileNameExt(outputFileName, 'html') ||
+    getFileName(inputFolder) + '.html'
   let outputFile = path.resolve(process.cwd(), HTMLFileNameWithExt)
 
   const mdParser = getRemarkableParser()
 
-  const mdHtml = `<article class="markdown-body">` + mdParser.render(mdString) + `</article>`
+  const mdHtml = `<article class="markdown-body">` + mdParser.render(mdString) +
+    `</article>`
   const indexHtmlPath = path.join(__dirname, '../html5bp', 'index.html')
   const htmlString = fs
     .readFileSync(indexHtmlPath, 'utf-8')
@@ -74,14 +86,19 @@ function getHTMLFiles(mdString, repoBook, options) {
     .replace('{{content}}', mdHtml)
 
   if (!repoBook.hasSingleFile()) {
-    outputFile = outputFile.replace('.html', '-' + repoBook.currentPart() + '.html')
+    outputFile = outputFile.replace('.html', '-' + repoBook.currentPart() +
+      '.html')
   }
   fs.writeFileSync(outputFile, htmlString)
   return outputFile
 }
 
-function generateEbook(inputFolder, outputFile, title, options = { renderer: 'node' }) {
-  const { pdf_size, white_list, renderer } = options
+function generateEbook(inputFolder, outputFile, title, options = {
+  renderer: 'node'
+}) {
+  const {
+    pdf_size, white_list, renderer
+  } = options
   const repoBook = new RepoBook(inputFolder, title, pdf_size, white_list)
 
   const defaultOutputFileName = getFileName(inputFolder) + '.pdf'
@@ -109,4 +126,6 @@ function generateEbook(inputFolder, outputFile, title, options = { renderer: 'no
   sequenceRenderEbook(outputFiles, options)
 }
 
-module.exports = { generateEbook }
+module.exports = {
+  generateEbook
+}

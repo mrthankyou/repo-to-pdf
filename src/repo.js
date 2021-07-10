@@ -1,7 +1,9 @@
 const path = require('path')
 const fs = require('fs')
-const hljs = require('highlight.js')
-const { getFileName, getCleanFilename } = require('./utils')
+const hljs = require('highlightjs')
+const {
+  getFileName, getCleanFilename
+} = require('./utils')
 
 class RepoBook {
   constructor(dir, title, pdf_size, white_list) {
@@ -53,7 +55,8 @@ class RepoBook {
   }
 
   registerLanguages() {
-    const listPath = path.join(path.dirname(require.resolve('highlight.js')), 'languages')
+    const listPath = path.join(path.dirname(require.resolve('solidity.js')),
+      'languages')
     fs.readdirSync(listPath).map(f => {
       this.registerLanguage(f, require(path.join(listPath, f)))
       return null
@@ -71,7 +74,8 @@ class RepoBook {
 
     files.map(pair => {
       const f = pair[0]
-      const blackListHit = this.blackList.filter(e => !!f.match(e)).length > 0
+      const blackListHit = this.blackList.filter(e => !!f.match(e)).length >
+        0
       if (!fs.lstatSync(f).isDirectory()) {
         allFiles.push([f, level + 1, false])
       } else {
@@ -97,8 +101,10 @@ class RepoBook {
           anchorName = getCleanFilename(f[0], this.dir),
           left_pad = f[2] ? '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(f[1]) : '',
           h_level = '####',
-          list_style = f[2] ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(f[1]) + '|-'
-        return f[2] ? `${h_level} ${left_pad} ${list_style} /${indexName}` : `${h_level} ${left_pad}[${list_style} ${indexName}](#${anchorName})`
+          list_style = f[2] ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(f[1]) +
+          '|-'
+        return f[2] ? `${h_level} ${left_pad} ${list_style} /${indexName}` :
+          `${h_level} ${left_pad}[${list_style} ${indexName}](#${anchorName})`
       })
       .join('\n')
   }
@@ -130,9 +136,13 @@ class RepoBook {
       if (lang) {
         let data = fs.readFileSync(file)
         if (ext === 'md') {
-          data = `#### ${getCleanFilename(file, this.dir)} \n[to top](#Contents)` + '\n' + data + '\n'
+          data =
+            `#### ${getCleanFilename(file, this.dir)} \n[to top](#Contents)` +
+            '\n' + data + '\n'
         } else {
-          data = `#### ${getCleanFilename(file, this.dir)} \n[to top](#Contents)` + '\n``` ' + lang + '\n' + data + '\n```\n'
+          data =
+            `#### ${getCleanFilename(file, this.dir)} \n[to top](#Contents)` +
+            '\n``` ' + lang + '\n' + data + '\n```\n'
         }
         contents.push(data)
 
@@ -164,8 +174,8 @@ class RepoBook {
     }
 
     // if one part
-    const title = this.partOffset
-      ? `# ${this.title} (${++this.partOffset})\n\n\n\n` // the last part
+    const title = this.partOffset ?
+      `# ${this.title} (${++this.partOffset})\n\n\n\n` // the last part
       : `# ${this.title} \n\n\n\n` // single pdf
 
     let toc = '## Contents\n'
