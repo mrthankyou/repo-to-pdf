@@ -29,6 +29,7 @@
   "homepage": "https://github.com/josherich/repo-to-pdf#readme",
   "dependencies": {
     "commander": "^4.0.0",
+    "highlight.js": "^9.18.5",
     "highlightjs-solidity": "github:highlightjs/highlightjs-solidity",
     "relaxedjs": "0.2.4",
     "remarkable": "^2.0.0",
