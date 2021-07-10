@@ -31,7 +31,8 @@
     "commander": "^4.0.0",
     "highlightjs-solidity": "github:highlightjs/highlightjs-solidity",
     "relaxedjs": "0.2.4",
-    "remarkable": "^2.0.0"
+    "remarkable": "^2.0.0",
+    "scandir": "^0.1.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
