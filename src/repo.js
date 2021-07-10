@@ -55,7 +55,8 @@ class RepoBook {
   }
 
   registerLanguages() {
-    const listPath = path.join(path.dirname(require.resolve('solidity.js')),
+    const listPath = path.join(path.dirname(require.resolve(
+        'highlightjs-solidity')),
       'languages')
     fs.readdirSync(listPath).map(f => {
       this.registerLanguage(f, require(path.join(listPath, f)))
